@@ -25,76 +25,97 @@ app.get('/', (req, res) => {
 
     <style>
       body {
-        background: #111827;
-        color: white;
-        font-family: Arial;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 40px;
         text-align: center;
-        padding: 30px;
+      }
+
+      .container {
+        max-width: 700px;
+        margin: auto;
       }
 
       .card {
-        background: #1f2937;
-        width: 400px;
-        margin: 20px auto;
+        background: white;
         padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.4);
+        margin-top: 20px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
+
+      h1, h2, h3 {
+        margin-bottom: 15px;
       }
 
       button {
-        padding: 12px 18px;
-        margin: 10px;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
+        padding: 10px 18px;
+        margin: 8px;
+        border: 1px solid #999;
+        background: white;
         cursor: pointer;
+        border-radius: 5px;
       }
 
-      .visit {
-        background: #22c55e;
-        color: white;
+      button:hover {
+        background: #eaeaea;
       }
 
-      .reset {
-        background: #ef4444;
-        color: white;
+      p {
+        margin: 8px 0;
       }
 
-      .refresh {
-        background: #3b82f6;
-        color: white;
+      .logs {
+        text-align: left;
       }
     </style>
   </head>
 
   <body>
 
-    <h1>DevOps CI/CD Dashboard</h1>
+    <div class="container">
 
-    <div class="card">
-      <h2>Total Visits: ${visits}</h2>
-      <p>Server Status: ✅ Running</p>
-      <p>Hostname: ${os.hostname()}</p>
-      <p>Platform: ${os.platform()}</p>
-      <p>Uptime: ${Math.floor(process.uptime())} seconds</p>
-      <p>Started At: ${startTime.toLocaleTimeString()}</p>
-    </div>
+      <h1>DevOps CI/CD Dashboard</h1>
 
-    <form action="/visit" method="POST">
-      <button class="visit">Increase Visits</button>
-    </form>
+      <div class="card">
+        <h2>Application Status</h2>
 
-    <form action="/reset" method="POST">
-      <button class="reset">Reset Counter</button>
-    </form>
+        <p><strong>Server Status:</strong> Running</p>
+        <p><strong>Total Visits:</strong> ${visits}</p>
+        <p><strong>Hostname:</strong> ${os.hostname()}</p>
+        <p><strong>Platform:</strong> ${os.platform()}</p>
+        <p><strong>Uptime:</strong> ${Math.floor(process.uptime())} seconds</p>
+        <p><strong>Started At:</strong> ${startTime.toLocaleTimeString()}</p>
+      </div>
 
-    <form action="/" method="GET">
-      <button class="refresh">Refresh Dashboard</button>
-    </form>
+      <div class="card">
 
-    <div class="card">
-      <h3>Recent Activity Logs</h3>
-      ${logs.map(log => `<p>${log.time} → ${log.action}</p>`).join('') || '<p>No logs yet</p>'}
+        <form action="/visit" method="POST">
+          <button type="submit">Increase Visits</button>
+        </form>
+
+        <form action="/reset" method="POST">
+          <button type="submit">Reset Counter</button>
+        </form>
+
+        <form action="/" method="GET">
+          <button type="submit">Refresh Dashboard</button>
+        </form>
+
+      </div>
+
+      <div class="card logs">
+        <h3>Recent Activity Logs</h3>
+
+        ${
+          logs.length
+            ? logs.map(log => `<p>${log.time} - ${log.action}</p>`).join('')
+            : '<p>No activity available.</p>'
+        }
+
+      </div>
+
     </div>
 
   </body>
@@ -123,5 +144,5 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('🚀 DevOps Dashboard running on port 3000');
+  console.log('Server running on port 3000');
 });
