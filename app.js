@@ -69,7 +69,7 @@ app.get('/', (req, res) => {
 
   <body>
 
-    <h1>🚀 DevOps CI/CD Dashboard</h1>
+    <h1>DevOps CI/CD Dashboard</h1>
 
     <div class="card">
       <h2>Total Visits: ${visits}</h2>
